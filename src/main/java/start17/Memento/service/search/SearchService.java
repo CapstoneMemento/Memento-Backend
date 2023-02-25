@@ -18,11 +18,12 @@ import java.util.List;
 
 @Service
 public class SearchService {
-    private String url = "http://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&query=특허&type=XML";
+    private String url = "http://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&type=XML&query=";
 
-    public List<CaseInfo> getCasesDatas() {
+    public List<CaseInfo> getCasesDatas(String query) {
         List<CaseInfo> caseInfoList = new ArrayList<>();
         try{
+            url = url + query;
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
