@@ -1,4 +1,4 @@
-package start17.Memento.service.search;
+package start17.Memento.domain.search;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -6,8 +6,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import start17.Memento.domain.search.CaseInfo;
 
-import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,10 +17,10 @@ import java.util.List;
 
 
 @Service
-public class SearchService {
-    private String url = "http://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&type=XML&query=";
+public class SearchWithQueryService {
 
-    public List<CaseInfo> getCasesDatas(String query) {
+    public List<CaseInfo> getCasesList(String query) throws IOException{
+        String url = "http://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&type=XML&query=";
         List<CaseInfo> caseInfoList = new ArrayList<>();
         try{
             url = url + query;
@@ -31,7 +31,6 @@ public class SearchService {
             Document doc = dBuilder.parse(url);
 
             doc.getDocumentElement().normalize();
-
 
             NodeList count = doc.getElementsByTagName("PrecSearch");
 
@@ -71,6 +70,7 @@ public class SearchService {
         }
         return caseInfoList;
     }
+
     private static String getTagValue(String tag, Element eElement) {
         Node nValue=null;
 
