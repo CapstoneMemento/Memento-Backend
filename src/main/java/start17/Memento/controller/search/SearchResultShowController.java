@@ -11,7 +11,7 @@ import java.io.IOException;
 public class SearchResultShowController {
 
     //사용자가 클릭한 판례에 대해서 판례 본문 보여줌
-    @RequestMapping("/search/show")
+    @RequestMapping("/search/content")
     @ResponseBody
     public CaseContent searchResultShow() throws IOException {
         SearchResultShowService srss = new SearchResultShowService();
