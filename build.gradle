@@ -18,12 +18,8 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	implementation 'mysql:mysql-connector-java'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-	// Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.security:spring-security-test'
-	// Jwt
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
 	// Swagger2 gradle
 	implementation (group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'){
