@@ -4,11 +4,25 @@ package start17.Memento.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+import javax.persistence.*;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
     private String user_id;
+
+    @Column
     private String password;
+
+    @Column
     private String nickname;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public User() {
     }
