@@ -2,15 +2,15 @@ package start17.Memento.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import start17.Memento.domain.User;
+import start17.Memento.entity.UserEntity;
 
 import java.util.List;
 
 @Repository
 @Mapper
 public interface UserMapper {
-    void createUser(User user);
-    User getUserById(String user_id);
-    List<User> getAllUser();
-    void updateUser(User user);
+    void createUser(UserEntity userEntity);
+    UserEntity getUserById(String user_id);
+    List<UserEntity> getAllUser();
+    void updateUser(UserEntity userEntity);
 }
