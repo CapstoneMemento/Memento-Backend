@@ -6,12 +6,12 @@
 
     <!-- 회원가입 -->
     <insert id="createUser">
-        INSERT INTO users(user_id, password, nickname, role) VALUES(#{user_id}, #{password}, #{nickname}, #{role});
+        INSERT INTO users(userid, password, nickname, role) VALUES(#{userid}, #{password}, #{nickname}, #{role});
     </insert>
 
     <!-- 로그인 -->
-    <select id="getUserById" resultType="start17.Memento.domain.User">
-        SELECT * FROM users WHERE user_id=#{user_id};
+    <select id="getUserById" resultType="start17.Memento.entity.UserEntity">
+        SELECT * FROM users WHERE userid=#{userid};
     </select>
 
 </mapper>

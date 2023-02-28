@@ -3,13 +3,16 @@ package start17.Memento.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 public class UserDto {
-    private String user_id;
+    private String userid;
     private String password;
+    private String nickname;
 
     @Getter @Setter
     public static class LoginInfo {
-        private String user_id;
+        private String userid;
         private String password;
     }
 }
