@@ -9,9 +9,9 @@
         INSERT INTO users(user_id, password, nickname) VALUES(#{user_id}, #{password}, #{nickname});
     </insert>
 
-    <!-- 로그인 -->
-    <select id="getUserById" resultType="start17.Memento.domain.User">
-        SELECT user_id, password, nickname FROM users WHERE user_id=#{user_id};
+    <!-- id 값으로 user 검색 -->
+    <select id="getUserById" parameterType="string" resultType="start17.Memento.domain.User">
+        SELECT * FROM users WHERE user_id=#{user_id};
     </select>
 
 </mapper>
