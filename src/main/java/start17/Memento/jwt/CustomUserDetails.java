@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import start17.Memento.entity.UserEntity;
+import start17.Memento.domain.UserEntity;
 import start17.Memento.repository.UserRepository;
 
 @Service

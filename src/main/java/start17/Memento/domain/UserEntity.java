@@ -1,8 +1,9 @@
-package start17.Memento.entity;
+package start17.Memento.domain;
 
 
 import lombok.Getter;
 import lombok.Setter;
+import start17.Memento.domain.Role;
 
 import javax.persistence.*;
 import java.util.List;

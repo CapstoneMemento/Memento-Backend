@@ -5,20 +5,22 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import start17.Memento.entity.Role;
+import start17.Memento.domain.RefreshToken;
+import start17.Memento.domain.Role;
+import start17.Memento.exception.CustomException;
+import start17.Memento.model.dto.TokenDto;
+import start17.Memento.repository.RefreshTokenRepository;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,10 +29,13 @@ public class JwtTokenProvider {
 
     private String secretKey = "mementosecret";
 
-    //토큰 유효시간 30분
-    private long tokenValidTime = 1000L * 60 * 30;
+    private static final long tokenValidTime =  1000L * 60 * 30; //30분
+    private static final long refreshTokenValidTime =  1000L * 60 * 60 * 24 * 7; //7일
+    public static final String ACCESS_TOKEN = "Access_Token";
+    public static final String REFRESH_TOKEN = "Refresh_Token";
 
     private final CustomUserDetails customUserDetails;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     //객체 초기화, secretKey를 Base64로 인코딩
     @PostConstruct
@@ -48,6 +53,17 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    //Refresh 토큰 생성
+    public String createRefreshToken() {
+        Date now = new Date();
+
+        return Jwts.builder()
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + refreshTokenValidTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -73,4 +89,5 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
 }
