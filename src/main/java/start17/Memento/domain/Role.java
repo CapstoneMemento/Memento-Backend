@@ -1,4 +1,4 @@
-package start17.Memento.entity;
+package start17.Memento.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 

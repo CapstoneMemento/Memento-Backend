@@ -10,7 +10,7 @@
     </insert>
 
     <!-- 로그인 -->
-    <select id="getUserById" resultType="start17.Memento.entity.UserEntity">
+    <select id="getUserById" resultType="start17.Memento.domain.UserEntity">
         SELECT * FROM users WHERE userid=#{userid};
     </select>
 
