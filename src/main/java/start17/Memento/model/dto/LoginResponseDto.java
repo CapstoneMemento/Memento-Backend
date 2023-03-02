@@ -8,11 +8,13 @@ import lombok.Setter;
 public class LoginResponseDto {
     private String userid;
     private String nickname;
-    private String token;
+    private String accessToken;
+    private String refreshToken;
 
-    public LoginResponseDto(String userid, String nickname, String token) {
+    public LoginResponseDto(String userid, String nickname, String accessToken, String refreshToken) {
         this.userid = userid;
         this.nickname = nickname;
-        this.token = token;
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 }
