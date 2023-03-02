@@ -8,9 +8,9 @@ import lombok.Setter;
 @Getter
 @Builder
 public class CaseContent {
-    private String title;
-    private String sentence;
-    private String main;
-    private String provision;
-    private String reason;
+    private String title; // 판례제목
+    private String sentence; //판시사항
+    private String main; //판결요지
+    private String provision; //관련 조문
+    private String reason; //판결 이유
 }
