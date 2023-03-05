@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +25,8 @@ import start17.Memento.repository.RefreshTokenRepository;
 import start17.Memento.repository.UserRepository;
 import start17.Memento.service.UserService;
 
+import java.util.NoSuchElementException;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -38,7 +43,8 @@ import start17.Memento.service.UserService;
     @Override
     public UserEntity createUser(UserEntity registerDto) {
         //아이디 중복 검사
-        UserEntity findUser = userRepository.findByUserid(registerDto.getUserid());
+        UserEntity findUser = userRepository.findByUserid(registerDto.getUserid()).get();
+        log.info("findUser: {}", findUser);
         if (findUser != null) {
             throw new CustomException("이미 존재하는 아이디입니다.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
@@ -50,7 +56,8 @@ import start17.Memento.service.UserService;
     @Override
     public UserEntity createAdminUser(UserEntity registerDto) {
         //아이디 중복 검사
-        UserEntity findUser = userRepository.findByUserid(registerDto.getUserid());
+        UserEntity findUser = userRepository.findByUserid(registerDto.getUserid()).get();
+        log.info("findUser: {}", findUser);
         if (findUser != null) {
             throw new CustomException("이미 존재하는 아이디입니다.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
@@ -66,14 +73,14 @@ import start17.Memento.service.UserService;
         String password = user.getPassword();
 
         try {
-            UserEntity userEntity = userRepository.findByUserid(user.getUserid());
+            UserEntity userEntity = userRepository.findByUserid(user.getUserid())
+                    .orElseThrow(() -> new NoSuchElementException("존재하지 않는 회원입니다."));
             checkPassword(password, userEntity.getPassword());
             //토큰 생성
             String username = userEntity.getUsername();
             String accessToken = jwtTokenProvider.createAccessToken(username);
             RefreshToken refreshToken = saveRefreshToken(username);
-
-            String nickname = userRepository.findByUserid(userid).getNickname();
+            String nickname = userEntity.getNickname();
             return new LoginResponseDto(userid, nickname, accessToken, refreshToken.getRefreshToken());
         } catch (AuthenticationException e) {
             throw new CustomException("잘못된 아이디/비밀번호가 입력되었습니다.", HttpStatus.UNPROCESSABLE_ENTITY);
@@ -106,29 +113,30 @@ import start17.Memento.service.UserService;
     }
 
     //토큰 재발행
-//    @Override
-//    public TokenDto reIssue(TokenDto tokenDto) {
-//        if (!jwtTokenProvider.validateToken(tokenDto.getRefreshToken())) {
-//            throw new CustomException("유효하지 않은 JWT 토큰입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//        UserEntity user = findUserByToken(tokenDto);
-//        log.info("{}", user.getRefreshToken());
-//        if (!user.getRefreshToken().equals(tokenDto.getRefreshToken())) {
-//            throw new CustomException("유효하지 않은 JWT 토큰입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//
-//        String accessToken = jwtTokenProvider.createToken(user.getUserid());
-//        String refreshToken = jwtTokenProvider.createRefreshToken();
-//
-//
-//        return new TokenDto(accessToken, refreshToken);
-//    }
+    @Override
+    public TokenDto reIssue(String refreshToken) {
+        refreshToken = resolveToken(refreshToken);
+        String username = getCurrentUsername();
+        RefreshToken redishRefreshToken = refreshTokenRepository.findById(username).orElseThrow(NoSuchElementException::new);
 
-//    public UserEntity findUserByToken(TokenDto tokenDto) {
-//        Authentication auth = jwtTokenProvider.getAuthentication(tokenDto.getAccessToken());
-//        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-//        String userid = userDetails.getUsername();
-//        return userRepository.findByUserid(userid);
-//    }
+        if (refreshToken.equals(redishRefreshToken.getRefreshToken())) {
+            return reIssueRefreshToken(refreshToken, username);
+        }
+        throw new IllegalArgumentException("토큰이 일치하지 않습니다.");
+    }
+
+    private TokenDto reIssueRefreshToken(String refreshToken, String username) {
+        if(jwtTokenProvider.getRemainMilliSeconds(refreshToken) < jwtTokenProvider.REISSUE_TOKEN_VALID_TIME) {
+            String accessToken = jwtTokenProvider.createAccessToken(username);
+            return TokenDto.of(accessToken, saveRefreshToken(username).getRefreshToken());
+        }
+        return TokenDto.of(jwtTokenProvider.createAccessToken(username), refreshToken);
+    }
+
+    private String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return userDetails.getUsername();
+    }
 
 }

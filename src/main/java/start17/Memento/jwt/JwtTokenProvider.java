@@ -22,6 +22,7 @@ public class JwtTokenProvider {
     private String secretKey = "mementosecret";
     public static final long ACCESS_TOKEN_VALID_TIME =  1000L * 60 * 30; //30분
     public static final long REFRESH_TOKEN_VALID_TIME =  1000L * 60 * 60 * 24 * 7; //7일
+    public static final long REISSUE_TOKEN_VALID_TIME =  1000L * 60 * 60 * 24 * 3; //7일
     public static final String ACCESS_TOKEN = "accessToken";
     public static final String REFRESH_TOKEN = "refreshToken";
 
