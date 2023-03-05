@@ -64,11 +64,11 @@ public class UserController {
         return accessToken.substring(7);
     }
 
-//    @ApiOperation(value = "토큰 재발급", notes = "Refresh 토큰이 유효하지 않을 시 재발급한다.")
-//    @PostMapping("/reissue")
-//    public ResponseEntity<?> reIssue(@RequestBody TokenDto tokenDto) {
-//        return ResponseEntity.ok(userService.reIssue(tokenDto));
-//    }
+    @ApiOperation(value = "토큰 재발급", notes = "Refresh 토큰이 유효하지 않을 시 재발급한다.")
+    @PostMapping("/reissue")
+    public ResponseEntity<TokenDto> reIssue(@RequestHeader("RefreshToken") String refreshToken) {
+        return ResponseEntity.ok(userService.reIssue(refreshToken));
+    }
 
 
 }
