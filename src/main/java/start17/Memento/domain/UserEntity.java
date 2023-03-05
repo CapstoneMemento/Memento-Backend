@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Getter
@@ -28,8 +29,8 @@ public class UserEntity {
     @Column
     private String nickname;
 
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    List<Role> roles;
+    @Column
+    private String username;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -38,6 +39,7 @@ public class UserEntity {
 
     public static UserEntity ofUser(UserEntity userEntity) {
         UserEntity user = UserEntity.builder()
+                .username(UUID.randomUUID().toString())
                 .userid(userEntity.getUserid())
                 .password(userEntity.getPassword())
                 .nickname(userEntity.getNickname())
@@ -48,6 +50,7 @@ public class UserEntity {
 
     public static UserEntity ofAdmin(UserEntity userEntity) {
         UserEntity user = UserEntity.builder()
+                .username(UUID.randomUUID().toString())
                 .userid(userEntity.getUserid())
                 .password(userEntity.getPassword())
                 .nickname(userEntity.getNickname())

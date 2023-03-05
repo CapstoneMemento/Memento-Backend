@@ -1,11 +1,11 @@
 package start17.Memento.model.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import start17.Memento.domain.JwtHeaderUtilEnums;
+import start17.Memento.domain.LogoutAccessToken;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,8 +14,11 @@ public class TokenDto {
     private String accessToken;
     private String refreshToken;
 
-    public TokenDto(String accessToken, String refreshToken) {
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
+    public static TokenDto of(String accessToken, String refreshToken) {
+        return TokenDto.builder()
+                .grantType(JwtHeaderUtilEnums.GRANT_TYPE.getValue())
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }

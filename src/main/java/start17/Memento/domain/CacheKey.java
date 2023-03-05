@@ -1,4 +1,4 @@
-package start17.Memento.config;
+package start17.Memento.domain;
 
 import lombok.Getter;
 

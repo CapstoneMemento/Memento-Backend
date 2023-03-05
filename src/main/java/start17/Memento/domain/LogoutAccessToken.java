@@ -17,15 +17,15 @@ public class LogoutAccessToken {
     @Id
     private String id;
 
-    private String userid;
+    private String username;
 
     @TimeToLive
     private Long expiration;
 
-    public static LogoutAccessToken of(String accessToken, String userid, Long remainingMilliSeconds) {
+    public static LogoutAccessToken of(String accessToken, String username, Long remainingMilliSeconds) {
         return LogoutAccessToken.builder()
                 .id(accessToken)
-                .userid(userid)
+                .username(username)
                 .expiration(remainingMilliSeconds / 1000)
                 .build();
     }

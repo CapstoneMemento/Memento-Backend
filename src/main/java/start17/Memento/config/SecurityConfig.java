@@ -8,10 +8,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -40,11 +38,6 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-//    @Bean
-//    public void configure(WebSecurity web) { // 4
-//        web.ignoring().antMatchers("/swagger-ui.html/**");
-//    }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -58,11 +51,13 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(
                         "/",
+                        "/swagger-ui.html/**",
                         "/users/register",
                         "/users/register/admin",
                         "/users/login"
                 ).permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/users/logout").authenticated()
+                .anyRequest().hasRole("USER");
 
         //커스텀 로그인 뷰 사용
         http
@@ -83,9 +78,9 @@ public class SecurityConfig {
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint);
 
-        //JWT 적용
+        //JWT 필터 적용
         http
-                .apply(new JwtSecurityConfig(jwtTokenProvider, customUserDetailsService, logoutAccessTokenRedisRepository));
+                .addFilterBefore(new JwtTokenFilter(jwtTokenProvider, customUserDetailsService, logoutAccessTokenRedisRepository), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

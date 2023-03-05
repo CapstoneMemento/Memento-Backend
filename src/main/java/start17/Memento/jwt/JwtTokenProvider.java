@@ -42,17 +42,18 @@ public class JwtTokenProvider {
     }
 
     //Access 토큰 생성
-    public String createAccessToken(String userid) {
-        return doGenerateToken(userid, ACCESS_TOKEN_VALID_TIME);
+    public String createAccessToken(String username) {
+        return doGenerateToken(username, ACCESS_TOKEN_VALID_TIME);
     }
 
     //Refresh 토큰 생성
-    public String createRefreshToken(String userid) {
-        return doGenerateToken(userid, REFRESH_TOKEN_VALID_TIME);
+    public String createRefreshToken(String username) {
+        return doGenerateToken(username, REFRESH_TOKEN_VALID_TIME);
     }
 
-    private String doGenerateToken(String userid, long expireTime) {
+    private String doGenerateToken(String username, long expireTime) {
         Claims claims = Jwts.claims();
+        claims.put("username", username);
         Date now = new Date((System.currentTimeMillis()));
 
         return Jwts.builder()
@@ -63,16 +64,9 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    //JWT 토큰에서 인증 정보 조회
-    public Authentication getAuthentication(String token) {
-        String userid = getUserid(token);
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(userid);
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
-
     //토큰에서 userid 추출
-    public String getUserid(String token) {
-        return extractAllClaims(token).getSubject();
+    public String getUsername(String token) {
+        return extractAllClaims(token).get("username", String.class);
     }
 
     //토큰 만료 확인
@@ -88,7 +82,7 @@ public class JwtTokenProvider {
 
     //토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String token, UserDetails userDetails) {
-        String userid = getUserid(token);
+        String userid = getUsername(token);
         return userid.equals(userDetails.getUsername())
                 && !isTokenExpired(token);
     }
