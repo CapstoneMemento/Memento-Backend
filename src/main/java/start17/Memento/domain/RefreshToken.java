@@ -22,9 +22,9 @@ public class RefreshToken {
     @TimeToLive
     private Long expiration;
 
-    public static RefreshToken createRefreshToken(String userid, String refreshToken, Long remainingMilliSeconds) {
+    public static RefreshToken createRefreshToken(String username, String refreshToken, Long remainingMilliSeconds) {
         return RefreshToken.builder()
-                .id(userid)
+                .id(username)
                 .refreshToken(refreshToken)
                 .expiration(remainingMilliSeconds / 1000)
                 .build();

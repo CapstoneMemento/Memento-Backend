@@ -2,14 +2,14 @@ package start17.Memento.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import start17.Memento.domain.CacheKey;
+import start17.Memento.domain.LogoutAccessToken;
 import start17.Memento.domain.RefreshToken;
 import start17.Memento.domain.UserEntity;
 import start17.Memento.exception.CustomException;
@@ -17,20 +17,22 @@ import start17.Memento.jwt.JwtTokenProvider;
 import start17.Memento.model.dto.LoginResponseDto;
 import start17.Memento.model.dto.TokenDto;
 import start17.Memento.model.dto.UserDto;
+import start17.Memento.repository.LogoutAccessTokenRedisRepository;
 import start17.Memento.repository.RefreshTokenRepository;
 import start17.Memento.repository.UserRepository;
 import start17.Memento.service.UserService;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 @Slf4j
  public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final AuthenticationManager authenticationManager;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final LogoutAccessTokenRedisRepository logoutAccessTokenRedisRepository;
 
     //회원가입
     @Override
@@ -63,14 +65,13 @@ import start17.Memento.service.UserService;
         String userid = user.getUserid();
         String password = user.getPassword();
 
-
         try {
-//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userid, password));
             UserEntity userEntity = userRepository.findByUserid(user.getUserid());
             checkPassword(password, userEntity.getPassword());
             //토큰 생성
-            String accessToken = jwtTokenProvider.createAccessToken(userid);
-            RefreshToken refreshToken = saveRefreshToken(userid);
+            String username = userEntity.getUsername();
+            String accessToken = jwtTokenProvider.createAccessToken(username);
+            RefreshToken refreshToken = saveRefreshToken(username);
 
             String nickname = userRepository.findByUserid(userid).getNickname();
             return new LoginResponseDto(userid, nickname, accessToken, refreshToken.getRefreshToken());
@@ -85,9 +86,23 @@ import start17.Memento.service.UserService;
         }
     }
 
-    private RefreshToken saveRefreshToken(String userid) {
-        return refreshTokenRepository.save(RefreshToken.createRefreshToken(userid,
-                jwtTokenProvider.createRefreshToken(userid), JwtTokenProvider.REFRESH_TOKEN_VALID_TIME));
+    private RefreshToken saveRefreshToken(String username) {
+        return refreshTokenRepository.save(RefreshToken.createRefreshToken(username,
+                jwtTokenProvider.createRefreshToken(username), JwtTokenProvider.REFRESH_TOKEN_VALID_TIME));
+    }
+
+    //로그아웃
+    @Override
+    @CacheEvict(value = CacheKey.USER, key = "#username")
+    public void logout(TokenDto tokenDto, String username) {
+        String accessToken = resolveToken(tokenDto.getAccessToken());
+        long remainMilliSeconds = jwtTokenProvider.getRemainMilliSeconds(accessToken);
+        refreshTokenRepository.deleteById(username);
+        logoutAccessTokenRedisRepository.save(LogoutAccessToken.of(accessToken, username, remainMilliSeconds));
+    }
+
+    public String resolveToken(String token) {
+        return token.substring(7);
     }
 
     //토큰 재발행
@@ -109,11 +124,11 @@ import start17.Memento.service.UserService;
 //        return new TokenDto(accessToken, refreshToken);
 //    }
 
-    public UserEntity findUserByToken(TokenDto tokenDto) {
-        Authentication auth = jwtTokenProvider.getAuthentication(tokenDto.getAccessToken());
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        String userid = userDetails.getUsername();
-        return userRepository.findByUserid(userid);
-    }
+//    public UserEntity findUserByToken(TokenDto tokenDto) {
+//        Authentication auth = jwtTokenProvider.getAuthentication(tokenDto.getAccessToken());
+//        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+//        String userid = userDetails.getUsername();
+//        return userRepository.findByUserid(userid);
+//    }
 
 }
