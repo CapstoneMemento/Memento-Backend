@@ -1,18 +1,13 @@
 package start17.Memento.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import start17.Memento.service.impl.CustomUserDetailsService;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Component
@@ -23,10 +18,6 @@ public class JwtTokenProvider {
     public static final long ACCESS_TOKEN_VALID_TIME =  1000L * 60 * 30; //30분
     public static final long REFRESH_TOKEN_VALID_TIME =  1000L * 60 * 60 * 24 * 7; //7일
     public static final long REISSUE_TOKEN_VALID_TIME =  1000L * 60 * 60 * 24 * 3; //7일
-    public static final String ACCESS_TOKEN = "accessToken";
-    public static final String REFRESH_TOKEN = "refreshToken";
-
-    private final CustomUserDetailsService customUserDetailsService;
 
     //객체 초기화, secretKey를 Base64로 인코딩
     @PostConstruct
@@ -65,7 +56,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    //토큰에서 userid 추출
+    //토큰에서 username 추출
     public String getUsername(String token) {
         return extractAllClaims(token).get("username", String.class);
     }
@@ -76,11 +67,6 @@ public class JwtTokenProvider {
         return expiration.before(new Date());
     }
 
-//    // Request의 Header에서 token 값 가져오기. "Authorization" : "TOKEN값'
-//    public String resolveToken(HttpServletRequest request) {
-//        return request.getHeader("Authorization");
-//    }
-
     //토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String token, UserDetails userDetails) {
         String userid = getUsername(token);
@@ -88,6 +74,7 @@ public class JwtTokenProvider {
                 && !isTokenExpired(token);
     }
 
+    //토큰 만료까지 남은 시간 가져오기
     public long getRemainMilliSeconds(String token) {
         Date expiration = extractAllClaims(token).getExpiration();
         Date now = new Date();
