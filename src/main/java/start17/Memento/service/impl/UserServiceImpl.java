@@ -43,9 +43,7 @@ import java.util.NoSuchElementException;
     @Override
     public UserEntity createUser(UserEntity registerDto) {
         //아이디 중복 검사
-        UserEntity findUser = userRepository.findByUserid(registerDto.getUserid()).get();
-        log.info("findUser: {}", findUser);
-        if (findUser != null) {
+        if (userRepository.findByUserid(registerDto.getUserid()).isPresent()) {
             throw new CustomException("이미 존재하는 아이디입니다.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
         //저장
@@ -56,9 +54,7 @@ import java.util.NoSuchElementException;
     @Override
     public UserEntity createAdminUser(UserEntity registerDto) {
         //아이디 중복 검사
-        UserEntity findUser = userRepository.findByUserid(registerDto.getUserid()).get();
-        log.info("findUser: {}", findUser);
-        if (findUser != null) {
+        if (userRepository.findByUserid(registerDto.getUserid()).isPresent()) {
             throw new CustomException("이미 존재하는 아이디입니다.", HttpStatus.UNPROCESSABLE_ENTITY);
         }
         //저장
@@ -117,9 +113,9 @@ import java.util.NoSuchElementException;
     public TokenDto reIssue(String refreshToken) {
         refreshToken = resolveToken(refreshToken);
         String username = getCurrentUsername();
-        RefreshToken redishRefreshToken = refreshTokenRepository.findById(username).orElseThrow(NoSuchElementException::new);
+        RefreshToken redisRefreshToken = refreshTokenRepository.findById(username).orElseThrow(NoSuchElementException::new);
 
-        if (refreshToken.equals(redishRefreshToken.getRefreshToken())) {
+        if (refreshToken.equals(redisRefreshToken.getRefreshToken())) {
             return reIssueRefreshToken(refreshToken, username);
         }
         throw new IllegalArgumentException("토큰이 일치하지 않습니다.");
@@ -139,4 +135,10 @@ import java.util.NoSuchElementException;
         return userDetails.getUsername();
     }
 
+    //계정 삭제
+    @Override
+    public void deleteUser(String userid, String username) {
+        refreshTokenRepository.deleteById(username);
+        userRepository.deleteById(userid);
+    }
 }

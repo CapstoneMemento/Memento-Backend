@@ -11,6 +11,7 @@ public interface UserService{
     UserEntity createUser(UserEntity registerDto);
     UserEntity createAdminUser(UserEntity registerDto);
     LoginResponseDto login(UserDto.LoginInfo user);
-    void logout(TokenDto tokenDto, String userid);
+    void logout(TokenDto tokenDto, String username);
     TokenDto reIssue(String refreshToken);
+    void deleteUser(String userid, String username);
 }

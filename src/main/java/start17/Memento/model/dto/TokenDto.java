@@ -1,8 +1,7 @@
 package start17.Memento.model.dto;
 
 import lombok.*;
-import start17.Memento.domain.JwtHeaderUtilEnums;
-import start17.Memento.domain.LogoutAccessToken;
+import start17.Memento.jwt.JwtHeaderUtilEnums;
 
 @Getter
 @Setter

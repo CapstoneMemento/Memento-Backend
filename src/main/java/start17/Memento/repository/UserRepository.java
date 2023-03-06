@@ -9,7 +9,7 @@ import start17.Memento.domain.UserEntity;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, String> {
     Optional<UserEntity> findByUserid(String userid);
     Optional<UserEntity> findByUsername(String username);
 

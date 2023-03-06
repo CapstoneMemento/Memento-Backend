@@ -1,4 +1,4 @@
-package start17.Memento.domain;
+package start17.Memento.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
