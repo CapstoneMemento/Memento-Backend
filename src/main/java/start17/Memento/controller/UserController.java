@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import start17.Memento.model.dto.TokenDto;
@@ -26,7 +27,8 @@ public class UserController {
     @ApiOperation(value = "회원가입", notes = "회원 id, 비밀번호, 닉네임을 입력해 user 정보를 생성한다.")
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserEntity user) {
-        return ResponseEntity.ok(userService.createUser(user));
+        userService.createUser(user);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @ApiOperation(value = "관리자 회원가입", notes = "회원 id, 비밀번호, 닉네임을 입력해 Admin user 정보를 생성한다.")
