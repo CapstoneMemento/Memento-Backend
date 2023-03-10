@@ -3,7 +3,7 @@ package start17.Memento.model.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import start17.Memento.repository.Note;
+import start17.Memento.domain.note.Note;
 
 @Getter
 @NoArgsConstructor
