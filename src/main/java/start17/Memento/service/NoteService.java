@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import start17.Memento.model.dto.NoteSaveRequestDto;
-import start17.Memento.repository.NoteRepository;
+import start17.Memento.domain.note.NoteRepository;
 
 @RequiredArgsConstructor
 @Service

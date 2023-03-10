@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import start17.Memento.model.dto.NoteSaveRequestDto;
-import start17.Memento.repository.Note;
-import start17.Memento.repository.NoteRepository;
+import start17.Memento.domain.note.Note;
+import start17.Memento.domain.note.NoteRepository;
 
 import java.util.List;
 

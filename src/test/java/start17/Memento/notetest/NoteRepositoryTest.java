@@ -1,13 +1,12 @@
 package start17.Memento.notetest;
 
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import start17.Memento.repository.Note;
-import start17.Memento.repository.NoteRepository;
+import start17.Memento.domain.note.Note;
+import start17.Memento.domain.note.NoteRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package start17.Memento.repository;
+package start17.Memento.domain.note;
 
 import lombok.Builder;
 import lombok.Data;
