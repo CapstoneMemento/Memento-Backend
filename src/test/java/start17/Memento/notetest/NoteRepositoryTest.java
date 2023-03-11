@@ -1,5 +1,6 @@
 package start17.Memento.notetest;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,12 @@ import java.util.List;
 public class NoteRepositoryTest {
     @Autowired
     NoteRepository noteRepository;
-/*
+
     @After
     public void cleanup(){
         noteRepository.deleteAll();
     }
-*/
+
     @Test
     public void get(){
         //given

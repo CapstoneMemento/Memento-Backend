@@ -14,7 +14,7 @@ import java.util.Date;
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(columnDefinition = "varchar(100) default 'EMPTY'" )
     private String title; //노트 제목
     @Column(columnDefinition = "varchar(1000) default 'EMPTY'" )
@@ -30,5 +30,10 @@ public class Note {
         this.content= content;
         this.type = type;
         this.categories_id = categories_id;
+    }
+
+    public void update (String title, String content){
+        this.title = title;
+        this.content = content;
     }
 }

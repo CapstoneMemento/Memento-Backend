@@ -1,4 +1,4 @@
-package start17.Memento.model.dto;
+package start17.Memento.model.dto.note;
 
 import lombok.Builder;
 import lombok.Getter;
