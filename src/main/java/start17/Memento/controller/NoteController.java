@@ -48,10 +48,12 @@ public class NoteController {
     @ApiOperation(value ="노트 전체 삭제", notes= "등록된 노트 모두를 삭제")
     @DeleteMapping("/deleteAll")
     public void deleteAll(){
+        noteService.deleteAll();
     }
 
     @ApiOperation(value ="특정 노트 삭제", notes= "등록된 특정 노트 하나를 삭제")
-    @DeleteMapping("/deleteAll")
-    public void delete(){
+    @DeleteMapping("/{id}/delete")
+    public void deleteNote(@PathVariable Long id){
+        noteService.deleteNote(id);
     }
 }

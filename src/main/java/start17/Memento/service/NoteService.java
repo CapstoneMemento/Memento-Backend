@@ -40,4 +40,13 @@ public class NoteService {
         List<Note> notelist = noteRepository.findAll();
         return notelist;
     }
+
+    @Transactional
+    public void deleteAll(){
+        noteRepository.deleteAll();
+    }
+    @Transactional
+    public void deleteNote(Long id){
+        noteRepository.deleteById(id);
+    }
 }
