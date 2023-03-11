@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 
-public class NoteUpdateTest {
+public class NoteControllerTest {
     @LocalServerPort
     private int port;
 
