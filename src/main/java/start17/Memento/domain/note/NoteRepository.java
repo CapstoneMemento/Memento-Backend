@@ -30,7 +30,7 @@ public class NoteRepository {
         Note findNote = findById(noteId);
         findNote.setTitle(updateParam.getTitle());
         findNote.setContent(updateParam.getContent());
-        findNote.setCategory(updateParam.getCategory());
+        findNote.setCategory_id(updateParam.getCategory_id());
         findNote.setSave_type(updateParam.getSave_type());
     }
 
