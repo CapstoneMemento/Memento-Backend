@@ -1,28 +1,39 @@
 package start17.Memento.domain.note;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.Date;
 @Getter
-@Setter
+@NoArgsConstructor
+@Entity
 //상세페이지에 변경 가능한 것들만 모아둠
 public class Note {
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(columnDefinition = "varchar(100) default 'EMPTY'" )
     private String title; //노트 제목
+    @Column(columnDefinition = "varchar(1000) default 'EMPTY'" )
     private String content; //노트 내용
-    private String save_type; // 저장 타입 (ex: 두문자)
-    private int category_id; // 포함 목차
+    @Column
+    private String type; // 저장 타입 (ex: 두문자)
+    @Column
+    private int categories_id; // 포함 목차
 
-    public Note(){}
-
-    public Note(long id, String title, String content, String save_type, int category_id) {
-        this.id = id;
+    @Builder
+    public Note(String title, String content, String type, int categories_id){
         this.title = title;
-        this.content = content;
-        this.save_type = save_type;
-        this.category_id = category_id;
+        this.content= content;
+        this.type = type;
+        this.categories_id = categories_id;
     }
 
+    public void update (String title, String content){
+        this.title = title;
+        this.content = content;
+    }
 }

@@ -1,67 +1,59 @@
 package start17.Memento.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import start17.Memento.domain.note.Note;
-import start17.Memento.domain.note.NoteRepository;
+import start17.Memento.model.dto.note.NoteResponseDto;
+import start17.Memento.model.dto.note.NoteSaveRequestDto;
+import start17.Memento.model.dto.note.NoteUpdateRequestDto;
+import start17.Memento.service.NoteService;
 
 import java.util.List;
-
-@RequestMapping("basic/notes")
+@Api(tags="NoteBasic")
 @RequiredArgsConstructor
+@RestController
+@RequestMapping("/note")
 public class NoteController {
+    private final NoteService noteService;
 
-    private final NoteRepository noteRepository;
-
-    //노트 목록
-    @GetMapping
-    public void notes(Model model){
-        List<Note> notes = noteRepository.findAll();
-        model.addAttribute("notes", notes);
-        //return /basic/notes
-    }
-
-    // 노트 상세페이지
-    @GetMapping("/{noteId}")
-    public void item(@PathVariable Long noteId, Model model){
-        Note note = noteRepository.findById(noteId);
-        model.addAttribute("note", note);
-        //return basic/note
-    }
-
-    // 노트 등록 폼 불러오기
-    @GetMapping("/add")
-    public void addForm(){
-        // return "basic/addForm"
-    }
-
-    //노트 등록
+    // 노트 등록
+    @ApiOperation(value ="노트 등록", notes= "등록하고자 하는 note객체를 전달받아 db에 저장")
     @PostMapping("/add")
-    public void addNote(Note note, RedirectAttributes redirectAttributes){
-        Note savedNote = noteRepository.save(note);
-        redirectAttributes.addAttribute("noteId", savedNote.getId());
-        redirectAttributes.addAttribute("status", true);
-
-        //그냥 뷰를 리턴하면 같은 값만 반복됨
-        //return "redirect:/basic/notes/" + note.getId(); -> X (URL 인코딩 문제)
-        // return "redirect:/basic/notes/{noteId}";
-
-    }
-
-    //노트 수정 폼 불러오기
-    @GetMapping("{noteId}/edit")
-    public void editFrom(@PathVariable Long noteId, Model model){
-        Note note = noteRepository.findById(noteId);
-        model.addAttribute("note", note);
-        //return view
+    public Long save(@RequestBody NoteSaveRequestDto requestDto){
+        return noteService.save(requestDto);
     }
 
     //노트 수정
-    @GetMapping("{noteId}/edit")
-    public void edit(@PathVariable Long noteId, @ModelAttribute Note note){
-        noteRepository.update(noteId, note);
-        //return redirect:/ -> 노트 상세페이지
+    @ApiOperation(value ="노트 수정", notes= "수정된 note객체 및 해당 노트의 id를 전달받아 db에 저장")
+    @PutMapping("/{id}/edit")
+    public Long update(@PathVariable Long id, @RequestBody NoteUpdateRequestDto requestDto){
+        return noteService.update(id, requestDto);
+    }
+    //노트 조회
+
+    @ApiOperation(value ="특정 노트 조회", notes= "특정 id의 노트를 조회")
+    @GetMapping("/{id}")
+    public NoteResponseDto findById (@PathVariable Long id){
+        return noteService.findById(id);
+    }
+
+    @ApiOperation(value ="모든 노트 조회", notes= "저장된 모든 노트를 조회")
+    @GetMapping("/list")
+    public List<Note> findAll (){
+        return noteService.findAll();
+    }
+
+    @ApiOperation(value ="노트 전체 삭제", notes= "등록된 노트 모두를 삭제")
+    @DeleteMapping("/deleteAll")
+    public void deleteAll(){
+        noteService.deleteAll();
+    }
+
+    @ApiOperation(value ="특정 노트 삭제", notes= "등록된 특정 노트 하나를 삭제")
+    @DeleteMapping("/{id}/delete")
+    public void deleteNote(@PathVariable Long id){
+        noteService.deleteNote(id);
     }
 }
