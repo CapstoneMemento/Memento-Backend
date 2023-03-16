@@ -35,3 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Docker ###
+/build/
+/mysql-init.d/
+docker-compose.yml
+db/
+out/
