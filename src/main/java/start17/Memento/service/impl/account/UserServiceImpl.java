@@ -1,4 +1,4 @@
-package start17.Memento.service.impl;
+package start17.Memento.service.impl.account;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,10 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import start17.Memento.domain.CacheKey;
-import start17.Memento.domain.LogoutAccessToken;
-import start17.Memento.domain.RefreshToken;
-import start17.Memento.domain.UserEntity;
+import start17.Memento.domain.account.CacheKey;
+import start17.Memento.domain.account.LogoutAccessToken;
+import start17.Memento.domain.account.RefreshToken;
+import start17.Memento.domain.account.UserEntity;
 import start17.Memento.exception.CustomException;
 import start17.Memento.jwt.JwtTokenProvider;
 import start17.Memento.model.dto.LoginResponseDto;
