@@ -37,7 +37,6 @@ out/
 .vscode/
 
 ### Docker ###
-/build/
 /mysql-init.d/
 docker-compose.yml
 db/
