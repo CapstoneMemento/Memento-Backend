@@ -42,3 +42,5 @@ out/
 docker-compose.yml
 db/
 out/
+
+./src/main/resources/application.properties
