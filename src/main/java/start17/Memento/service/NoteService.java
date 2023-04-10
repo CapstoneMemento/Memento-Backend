@@ -41,6 +41,12 @@ public class NoteService {
         return notelist;
     }
 
+    public List<Note> findByCategoryID(int categories_id){
+        List<Note> quizlist = noteRepository.findByCategoryID(categories_id);
+        return quizlist;
+
+    }
+
     @Transactional
     public void deleteAll(){
         noteRepository.deleteAll();
