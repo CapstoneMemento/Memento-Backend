@@ -4,10 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import start17.Memento.domain.keyword.Keyword;
 import start17.Memento.domain.note.Note;
+import start17.Memento.model.dto.keyword.KeywordSaveRequestDto;
 import start17.Memento.model.dto.note.NoteResponseDto;
 import start17.Memento.model.dto.note.NoteSaveRequestDto;
 import start17.Memento.model.dto.note.NoteUpdateRequestDto;
+import start17.Memento.service.KeywordService;
 import start17.Memento.service.NoteService;
 
 import java.util.List;
@@ -17,13 +20,20 @@ import java.util.List;
 @RequestMapping("/note")
 public class NoteController {
     private final NoteService noteService;
+    private final KeywordService keywordService;
 
     // 노트 등록
-    @ApiOperation(value ="노트 등록", notes= "등록하고자 하는 note객체를 전달받아 db에 저장")
+    @ApiOperation(value ="노트 등록", notes= "등록하고자 하는 note객체를 전달받아 db에 저장 후 noteid 반환")
     @PostMapping("/add")
-    public Long save(@RequestBody NoteSaveRequestDto requestDto){
-        return noteService.save(requestDto);
+    public Long savenote(@RequestBody NoteSaveRequestDto requestDto){
+        return noteService.save(requestDto); // 저장된 noteid 반환 -> 이걸 저장한다음 다음에 keyword에 넣어줌
     }
+    @ApiOperation(value ="키워드 인덱스 ", notes= "note 키워드 index를 담은 list를 전달받아 하나하나 keyword 객체 하나씩 찢어줌")
+    @GetMapping("/keyword")
+    public List<Keyword> savekeyword (@RequestBody List<KeywordSaveRequestDto> requestDto){
+        return keywordService.save(requestDto);
+    }
+
 
     //노트 수정
     @ApiOperation(value ="노트 수정", notes= "수정된 note객체 및 해당 노트의 id를 전달받아 db에 저장")
