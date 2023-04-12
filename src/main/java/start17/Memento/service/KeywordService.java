@@ -25,4 +25,8 @@ public class KeywordService {
     public void deleteAll() {
         keywordRepository.deleteAll();
     }
+
+    public List<Keyword> findAll (){
+        return keywordRepository.findAll();
+    }
 }

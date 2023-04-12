@@ -10,7 +10,7 @@ import start17.Memento.service.KeywordService;
 
 import java.util.List;
 
-@Api(tags="NoteBasic")
+@Api(tags="Keyword")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/keyword")
@@ -23,9 +23,14 @@ public class KeywordController {
         return keywordService.save(requestDto);
     }
 
-    @ApiOperation(value ="노트 전체 삭제", notes= "등록된 노트 모두를 삭제")
+    @ApiOperation(value ="키워드 전체 삭제", notes= "등록된 키워드 모두를 삭제")
     @DeleteMapping("/deleteAll")
     public void deleteAll(){
         keywordService.deleteAll();
+    }
+    @ApiOperation(value ="키워드 전체 조회", notes= "등록된 키워드 모두를 조회")
+    @DeleteMapping("/findAll")
+    public void findAll(){
+        keywordService.findAll();
     }
 }
