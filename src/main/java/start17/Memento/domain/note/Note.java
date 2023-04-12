@@ -10,6 +10,9 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @Entity
+@NamedQuery(
+        name="Note.findByCategoryID",
+        query="select n from Note n where n.categories_id = :categories_id")
 //상세페이지에 변경 가능한 것들만 모아둠
 public class Note {
     @Id
