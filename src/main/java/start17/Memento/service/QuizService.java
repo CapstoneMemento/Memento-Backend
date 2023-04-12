@@ -21,13 +21,14 @@ public class QuizService {
     public List<Quiz> getQuizList(int categories_id){
         List<Quiz> quizlist = new ArrayList<>();
         Note n;
-        List<String> keywords = new ArrayList<>(); // 한글이 들어있는 키워드
+
         //해당 카테고리 내 노트 리스트들 가져옴
         List<Note> notes = noteRepository.findByCategoryID(categories_id);
 
         for(int i=0; i<notes.size();i++){
             n = notes.get(i);
             List<Keyword> indexes = keywordRepository.findByNoteid(n.getId());
+            List<String> keywords = new ArrayList<>(); // 한글이 들어있는 키워드
             for (int j=0; j<indexes.size();j++){ // 한글 키워드 변환
                 keywords.add(n.getContent().substring(indexes.get(j).getFirst(), indexes.get(j).getLast()));
             }
