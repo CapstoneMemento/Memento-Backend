@@ -21,5 +21,8 @@ public class KeywordService {
         }
         return keywordRepository.findByNoteid(requestDtos.get(0).getNoteid()); // 해당 노트 id로 저장된 키워드 들 가져옴
     }
-
+    @Transactional
+    public void deleteAll() {
+        keywordRepository.deleteAll();
+    }
 }
