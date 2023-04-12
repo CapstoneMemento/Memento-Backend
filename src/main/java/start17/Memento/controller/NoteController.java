@@ -28,8 +28,8 @@ public class NoteController {
     public Long savenote(@RequestBody NoteSaveRequestDto requestDto){
         return noteService.save(requestDto); // 저장된 noteid 반환 -> 이걸 저장한다음 다음에 keyword에 넣어줌
     }
-    @ApiOperation(value ="키워드 인덱스 ", notes= "note 키워드 index를 담은 list를 전달받아 하나하나 keyword 객체 하나씩 찢어줌")
-    @GetMapping("/keyword")
+    @ApiOperation(value ="키워드 인덱스 ", notes= "note 키워드 index를 담은 list를 전달받아 하나하나 keyword DB에 넣어줌")
+    @PostMapping("/keyword")
     public List<Keyword> savekeyword (@RequestBody List<KeywordSaveRequestDto> requestDto){
         return keywordService.save(requestDto);
     }
