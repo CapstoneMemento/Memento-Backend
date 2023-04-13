@@ -1,6 +1,7 @@
 package start17.Memento.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,7 @@ public class S3Controller {
     private final S3Service s3Service;
     private final FileService fileService;
 
+    @ApiOperation(value = "이미지 업로드", notes = "file을 업로드하면 해당하는 url을 리턴한다.")
     @PostMapping("/upload")
     public String uploadFile(FileDto fileDto) throws IOException {
         String url = s3Service.upload(fileDto.getFile());
