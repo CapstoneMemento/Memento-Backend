@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import start17.Memento.repository.LogoutAccessTokenRedisRepository;
-import start17.Memento.service.impl.CustomUserDetailsService;
+import start17.Memento.service.impl.account.CustomUserDetailsService;
 import start17.Memento.jwt.JwtTokenProvider;
 
 import javax.servlet.FilterChain;
