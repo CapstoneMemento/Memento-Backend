@@ -17,7 +17,7 @@ import start17.Memento.jwt.JwtAccessDeniedHandler;
 import start17.Memento.jwt.JwtAuthenticationEntryPoint;
 import start17.Memento.jwt.JwtTokenProvider;
 import start17.Memento.repository.LogoutAccessTokenRedisRepository;
-import start17.Memento.service.impl.CustomUserDetailsService;
+import start17.Memento.service.impl.account.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity

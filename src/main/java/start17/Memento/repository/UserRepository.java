@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import start17.Memento.domain.UserEntity;
+import start17.Memento.domain.account.UserEntity;
 
 import java.util.Optional;
 

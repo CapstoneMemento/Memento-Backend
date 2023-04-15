@@ -12,7 +12,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import start17.Memento.domain.CacheKey;
+import start17.Memento.domain.account.CacheKey;
 
 import java.time.Duration;
 

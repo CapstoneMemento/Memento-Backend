@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import start17.Memento.model.dto.TokenDto;
-import start17.Memento.domain.UserEntity;
+import start17.Memento.domain.account.UserEntity;
 import start17.Memento.jwt.JwtTokenProvider;
 import start17.Memento.model.dto.UserDto;
 import start17.Memento.service.UserService;
