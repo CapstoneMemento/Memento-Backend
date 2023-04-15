@@ -44,5 +44,4 @@ db/
 out/
 
 ### application.properties
-src/main/resources/application.properties.deploy
 src/main/resources/application-aws.properties
