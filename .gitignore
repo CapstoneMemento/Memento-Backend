@@ -43,4 +43,4 @@ docker-compose.yml
 db/
 out/
 
-./src/main/resources/application.properties
+src/main/resources/application-aws.properties
