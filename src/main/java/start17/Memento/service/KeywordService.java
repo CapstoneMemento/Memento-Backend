@@ -29,4 +29,19 @@ public class KeywordService {
     public List<Keyword> findAll (){
         return keywordRepository.findAll();
     }
+
+    public List<Keyword> findByNoteid (Long noteid) {
+        return keywordRepository.findByNoteid(noteid);}
+    @Transactional
+    public void deleteByNoteid(Long noteid){
+        keywordRepository.deleteByNoteid(noteid);
+    }
+    @Transactional
+    public void UpdateKeyword (List<KeywordSaveRequestDto> requestDtos){
+        Long noteid = requestDtos.get(0).getNoteid();
+        keywordRepository.deleteByNoteid(noteid);
+        for (int i = 0; i< requestDtos.size(); i++){
+            keywordRepository.save(requestDtos.get(i).toEntity());
+        }
+    }
 }
