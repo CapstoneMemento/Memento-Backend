@@ -1,4 +1,4 @@
-package start17.Memento.domain;
+package start17.Memento.domain.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

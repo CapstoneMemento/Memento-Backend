@@ -16,4 +16,7 @@ public class MementoApplication {
 		return new HiddenHttpMethodFilter();
 	}
 
+	static {
+		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+	}
 }
