@@ -52,12 +52,19 @@ public class SearchService {
         }
 
     }
+    public List<CaseInfo> getCasesListbyQuery(String query) throws IOException {
+        String url = "http://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&type=XML&query=" + query;
+        return getCasesList(url);
+    }
 
-    public List<CaseInfo> getCasesList(String query) throws IOException{
-        String url = "http://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&type=XML&query=";
+    public List<CaseInfo> getCasesListbyCasenum(String casenum) throws IOException {
+        String url = "http://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&type=XML&nb=" + casenum;
+        return getCasesList(url);
+    }
+
+    public List<CaseInfo> getCasesList(String url) throws IOException{
         List<CaseInfo> caseInfoList = new ArrayList<>();
         try{
-            url = url + query;
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 
@@ -72,7 +79,7 @@ public class SearchService {
 
             NodeList nList = doc.getElementsByTagName("prec");
 
-            for (int page = 0; page < totalCnt/20;){
+            for (int page = 0; page <= totalCnt/20;){
                 for(int temp = 0; temp<nList.getLength(); temp++){
                     Node nNode = nList.item(temp);
                     if(nNode.getNodeType() == Node.ELEMENT_NODE){
@@ -89,8 +96,8 @@ public class SearchService {
                         caseInfoList.add(caseInfo);
                     }
                     page++;
-                    url="https://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&type=XML&query=특허&page="+page;
-                    doc = dBuilder.parse(url);
+                    String pageUrl=url+"&page="+page;
+                    doc = dBuilder.parse(pageUrl);
                     doc.getDocumentElement().normalize();
 
                 }
