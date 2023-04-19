@@ -30,8 +30,9 @@ public class SearchController {
     @GetMapping("/content")
     @ApiOperation(value = "판례 본문 화면", notes ="저장하고자 하는 판례 클릭 시 해당 판례ID를 받아 본문 불러옴")
     @ResponseBody
-    public CaseContent searchResultShow() throws IOException {
-        CaseContent cc =ss.getCaseContent();
+    public CaseContent searchResultShow(@RequestBody CaseInfo caseinfo) throws IOException {
+        int num = caseinfo.getNumber();
+        CaseContent cc =ss.getCaseContent(num);
         return cc;
     }
 }

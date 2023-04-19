@@ -20,8 +20,8 @@ import java.util.List;
 @Service
 public class SearchService {
 
-    public CaseContent getCaseContent() throws IOException{
-        String url = "https://www.law.go.kr/DRF/lawService.do?OC=yoonsoo98&target=prec&ID=228541&type=XML";
+    public CaseContent getCaseContent(int num) throws IOException{
+        String url = "https://www.law.go.kr/DRF/lawService.do?OC=yoonsoo98&target=prec&ID="+Integer.toString(num)+ "&type=XML";
 
         try{
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
