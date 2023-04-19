@@ -35,7 +35,7 @@ public class KeywordController {
         keywordService.deleteByNoteid(noteid);
     }
     @ApiOperation(value ="키워드 전체 조회", notes= "등록된 키워드 모두를 조회")
-    @DeleteMapping("/findAll")
+    @GetMapping("/findAll")
     public void findAll(){
         keywordService.findAll();
     }
