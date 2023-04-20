@@ -57,10 +57,6 @@ public class SearchService {
         return getCasesList(url);
     }
 
-    public List<CaseInfo> getCasesListbyCasenum(String casenum) throws IOException {
-        String url = "http://www.law.go.kr/DRF/lawSearch.do?OC=yoonsoo98&target=prec&type=XML&nb=" + casenum;
-        return getCasesList(url);
-    }
 
     public List<CaseInfo> getCasesList(String url) throws IOException{
         List<CaseInfo> caseInfoList = new ArrayList<>();

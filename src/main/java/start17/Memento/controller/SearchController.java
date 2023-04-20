@@ -19,17 +19,10 @@ public class SearchController {
 
     private final SearchService ss;
     //검색어 (=query)입력 시 그에 따른 판례 목록 불러옴
-    @GetMapping("/findByQuery")
-    @ApiOperation(value ="판례 검색 결과", notes="'검색어' 입력을 통한 판례목록 추출")
+    @GetMapping("/find")
+    @ApiOperation(value ="판례 검색 결과", notes= "검색어 입력을 통한 판례목록 추출")
     public List<CaseInfo> searchWithQuery(@RequestParam String query) throws Exception{
         List<CaseInfo> caseInfoList = ss.getCasesListbyQuery(query);
-        return caseInfoList;
-    }
-
-    @GetMapping("/findByCasenum")
-    @ApiOperation(value ="판례 검색 결과", notes="'판례 번호' 입력을 통한 판례목록 추출")
-    public List<CaseInfo> searchWithCasenum(@RequestParam String casenum) throws Exception{
-        List<CaseInfo> caseInfoList = ss.getCasesListbyCasenum(casenum);
         return caseInfoList;
     }
 
