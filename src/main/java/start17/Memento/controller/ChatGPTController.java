@@ -23,7 +23,7 @@ public class ChatGPTController {
         this.chatGPTService = chatGPTService;
     }
 
-    @ApiOperation(value = "ChatGPT에게 질문하기" , notes = "question에 '해당 판례 본문 내용' + '\n위 글에서 각 문장 내에서 중요한 단어들을 ','로 구분해서 나열해줘' 넣어줌 ")
+    @ApiOperation(value = "ChatGPT에게 질문하기" , notes = "노트 저장 시 사용하던 객체를 넣어주면 String 배열로 키워드 반환함")
     @PostMapping("/question")
     public String[] sendQuestion(@RequestBody NoteSaveRequestDto note){
         String question = note.getContent();
