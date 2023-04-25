@@ -28,8 +28,8 @@ public class ChatGPTService {
                 ChatGPTResponseDto.class);
         return responseEntity.getBody();
     }
-    public ChatGPTResponseDto askQuestion(QuestionRequestDto requestDto){
-        return this.getResponse(
+    public String[] askQuestion(QuestionRequestDto requestDto){
+        String message =  this.getResponse(
                 this.buildHttpEntity(
                         new ChatGPTRequestDto(
                                 ChatGPTConfig.MODEL,
@@ -39,6 +39,9 @@ public class ChatGPTService {
                                 ChatGPTConfig.TOP_P
                         )
                 )
-        );
+        ).getChoices().get(0).getText();
+        message = message.substring(4);
+        message = message.replaceAll("[/\n.]","");
+        return message.split(", ");
     }
 }
