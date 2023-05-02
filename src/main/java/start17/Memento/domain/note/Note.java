@@ -18,9 +18,9 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(columnDefinition = "varchar(100) default 'EMPTY'" , nullable = true)
+    @Column(columnDefinition = "varchar(500) default 'EMPTY'" , nullable = true)
     private String title; //노트 제목
-    @Column(columnDefinition = "varchar(1000) default 'EMPTY'" )
+    @Column(columnDefinition = "varchar(2000) default 'EMPTY'" )
     private String content; //노트 내용
     @Column (nullable = true)
     private String type; // 저장 타입 (ex: 두문자)
