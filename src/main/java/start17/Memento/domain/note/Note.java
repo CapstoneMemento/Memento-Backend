@@ -20,7 +20,7 @@ public class Note {
     private Long id;
     @Column(columnDefinition = "varchar(1000) default 'EMPTY'" , nullable = true)
     private String title; //노트 제목
-    @Column(columnDefinition = "varchar(50000) default 'EMPTY'" )
+    @Column(columnDefinition = "varchar(5000) default 'EMPTY'" )
     private String content; //노트 내용
     @Column (nullable = true)
     private String type; // 저장 타입 (ex: 두문자)
