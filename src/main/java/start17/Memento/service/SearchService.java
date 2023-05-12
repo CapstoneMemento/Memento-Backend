@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -72,31 +73,35 @@ public class SearchService {
             NodeList count = doc.getElementsByTagName("PrecSearch");
 
             int totalCnt = Integer.parseInt(getTagValue("totalCnt", (Element) count.item(0)));
+            if (totalCnt != 0){
+                NodeList nList = doc.getElementsByTagName("prec");
 
-            NodeList nList = doc.getElementsByTagName("prec");
-
-            for (int page = 0; page <= totalCnt/20;){
-                for(int temp = 0; temp<nList.getLength(); temp++){
-                    Node nNode = nList.item(temp);
-                    if(nNode.getNodeType() == Node.ELEMENT_NODE){
-                        Element eElement = (Element) nNode;
-                        CaseInfo caseInfo = CaseInfo.builder()
-                                .number(Integer.parseInt(getTagValue("판례일련번호",eElement)))
-                                .name(getTagValue("사건명",eElement))
-                                .casenum(getTagValue("사건번호",eElement))
-                                .court(getTagValue("법원명",eElement))
-                                .type(getTagValue("사건종류명",eElement))
-                                .judge_type(getTagValue("판결유형",eElement))
-                                .url(getTagValue("판례상세링크",eElement))
-                                .build();
-                        caseInfoList.add(caseInfo);
+                for (int page = 0; page <= totalCnt/20;){
+                    for(int temp = 0; temp<nList.getLength(); temp++) {
+                        Node nNode = nList.item(temp);
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            CaseInfo caseInfo = CaseInfo.builder()
+                                    .number(Integer.parseInt(getTagValue("판례일련번호", eElement)))
+                                    .name(getTagValue("사건명", eElement))
+                                    .casenum(getTagValue("사건번호", eElement))
+                                    .court(getTagValue("법원명", eElement))
+                                    .type(getTagValue("사건종류명", eElement))
+                                    .judge_type(getTagValue("판결유형", eElement))
+                                    .url(getTagValue("판례상세링크", eElement))
+                                    .build();
+                            caseInfoList.add(caseInfo);
+                        }
+                        page++;
+                        String pageUrl = url + "&page=" + page;
+                        doc = dBuilder.parse(pageUrl);
+                        doc.getDocumentElement().normalize();
                     }
-                    page++;
-                    String pageUrl=url+"&page="+page;
-                    doc = dBuilder.parse(pageUrl);
-                    doc.getDocumentElement().normalize();
-
                 }
+            }
+            else {
+                caseInfoList = Collections.emptyList();
+                return caseInfoList;
             }
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
