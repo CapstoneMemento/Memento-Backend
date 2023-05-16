@@ -14,4 +14,5 @@ public interface UserService{
     void logout(TokenDto tokenDto, String username);
     TokenDto reIssue(String refreshToken);
     void deleteUser(String userid, String username);
+    String getUser();
 }

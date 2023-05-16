@@ -4,13 +4,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import start17.Memento.domain.keyword.Keyword;
 import start17.Memento.domain.note.Note;
-import start17.Memento.model.dto.keyword.KeywordSaveRequestDto;
 import start17.Memento.model.dto.note.NoteResponseDto;
 import start17.Memento.model.dto.note.NoteSaveRequestDto;
 import start17.Memento.model.dto.note.NoteUpdateRequestDto;
-import start17.Memento.service.KeywordService;
 import start17.Memento.service.NoteService;
 
 import java.util.List;
