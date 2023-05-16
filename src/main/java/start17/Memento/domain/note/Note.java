@@ -12,7 +12,10 @@ import java.util.Date;
 @Entity
 @NamedQuery(
         name="Note.findByCategoryID",
-        query="select n from Note n where n.categories_id = :categories_id")
+        query="select n from Note n where n.categories_id = :categories_id and n.userid = :userid")
+@NamedQuery(
+        name="Note.findByUserID",
+        query="select n from Note n where n.userid = :userid")
 //상세페이지에 변경 가능한 것들만 모아둠
 public class Note {
     @Id
@@ -27,12 +30,16 @@ public class Note {
     @Column (nullable = true)
     private int categories_id; // 포함 목차
 
+    @Column
+    private String userid;
+
     @Builder
-    public Note(String title, String content, String type, int categories_id){
+    public Note(String title, String content, String type, int categories_id, String userid){
         this.title = title;
         this.content= content;
         this.type = type;
         this.categories_id = categories_id;
+        this.userid = userid;
     }
 
     public void update (String title, String content){

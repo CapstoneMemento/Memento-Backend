@@ -12,6 +12,7 @@ import start17.Memento.domain.quiz.Quiz;
 import start17.Memento.model.dto.note.NoteResponseDto;
 import start17.Memento.service.NoteService;
 import start17.Memento.service.QuizService;
+import start17.Memento.service.impl.account.UserServiceImpl;
 
 import java.util.List;
 @Api(tags="Quiz")
@@ -20,9 +21,11 @@ import java.util.List;
 @RequestMapping("/quiz")
 public class QuizController {
     private final QuizService quizService;
+    private final UserServiceImpl userService;
     @ApiOperation(value ="퀴즈 리스트 가져오기", notes= "입력받은 카테고리 id에 대해 한글 배열로 된 키워드 반환")
     @GetMapping("/{categories_id}")
     public List<Quiz> getQuizList (@PathVariable int categories_id){
-        return quizService.getQuizList(categories_id);
+        String userid = userService.getUser();
+        return quizService.getQuizList(categories_id,userid);
     }
 }

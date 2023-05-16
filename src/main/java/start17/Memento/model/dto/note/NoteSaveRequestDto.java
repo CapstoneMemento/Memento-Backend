@@ -12,13 +12,19 @@ public class NoteSaveRequestDto {
     private String content;
     private String title;
     private String type;
+    private String userid;
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
 
     @Builder
-    public NoteSaveRequestDto(int categories_id, String content, String title, String type){
+    public NoteSaveRequestDto(int categories_id, String content, String title, String type,String userid){
         this.categories_id = categories_id;
         this.content=content;
         this.title = title;
         this.type = type;
+        this.userid = userid;
     }
 
     public Note toEntity() {
@@ -27,6 +33,7 @@ public class NoteSaveRequestDto {
                 .content(content)
                 .title(title)
                 .type(type)
+                .userid(userid)
                 .build();
     }
 }

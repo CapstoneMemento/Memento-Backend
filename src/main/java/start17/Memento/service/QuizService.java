@@ -18,12 +18,12 @@ public class QuizService {
     private final KeywordRepository keywordRepository;
 
 
-    public List<Quiz> getQuizList(int categories_id){
+    public List<Quiz> getQuizList(int categories_id,String userid){
         List<Quiz> quizlist = new ArrayList<>();
         Note n;
 
         //해당 카테고리 내 노트 리스트들 가져옴
-        List<Note> notes = noteRepository.findByCategoryID(categories_id);
+        List<Note> notes = noteRepository.findByCategoryID(categories_id,userid);
 
         for(int i=0; i<notes.size();i++){
             n = notes.get(i);
