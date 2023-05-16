@@ -141,4 +141,22 @@ import java.util.NoSuchElementException;
         refreshTokenRepository.deleteById(username);
         userRepository.deleteById(userid);
     }
+
+    @Override
+    public String getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            String username = userDetails.getUsername();
+            UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new NoSuchElementException("없는 회원입니다."));
+            String userid = user.getUserid();
+            return userid;
+        } else {
+            throw new IllegalStateException("UserDetails not found in Authentication object");
+        }
+    }
+
+
 }
