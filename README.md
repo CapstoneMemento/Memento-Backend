@@ -11,6 +11,7 @@ CapstoneMemento의 백엔드 레포지토리입니다.<br>
   - 키워드 추천
   - 사용자가 키워드 직접 선택
 3. 퀴즈
+해당 레포지토리에선 위의 기능들을 위한 백엔드 API를 확인할 수 있습니다.
 
 # Stacks
 <div align=left>
